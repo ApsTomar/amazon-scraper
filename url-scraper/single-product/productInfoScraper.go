@@ -10,16 +10,16 @@ import (
 	"strings"
 )
 
-func ScrapeProductInfo(store data_store.DataStore, link string) error {
+func ScrapeProductInfo(store data_store.DataStore, link string) (*models.ViewProduct, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", link, nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36")
 	resp, err := client.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
@@ -32,11 +32,19 @@ func ScrapeProductInfo(store data_store.DataStore, link string) error {
 	}
 	product, err := getDetails(doc)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	fmt.Printf("Product info:\n%+v\n", product)
-	//err = store.UpsertProduct(*product)
-	return err
+	//storeProduct := &models.Product{
+	//	DataAsin:     product.DataAsin,
+	//	ProductName:  product.ProductName,
+	//	Manufacturer: product.Manufacturer,
+	//	Price:        product.Price,
+	//	Ratings:      product.Ratings,
+	//	Description:  product.Description,
+	//}
+	//err = store.UpsertProduct(*storeProduct)
+	return product, err
 
 }
 

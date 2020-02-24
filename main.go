@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/amazon/data-store"
 	"github.com/amazon/models"
 	"github.com/amazon/url-scraper/category-wise"
@@ -18,11 +19,12 @@ var store data_store.DataStore
 
 func productInfo(c *gin.Context) {
 	link := c.Request.FormValue("url")
-	err := single_product.ScrapeProductInfo(store, link)
+	productInfo, err := single_product.ScrapeProductInfo(store, link)
 	if err != nil {
 		log.Printf("[Scraper Error]: %v\n", err)
 	}
-	_, err = c.Writer.WriteString("Product Scraping: ok")
+	viewInfo, err := json.Marshal(productInfo)
+	_, err = c.Writer.Write(viewInfo)
 	if err != nil {
 		log.Println(err)
 	}
