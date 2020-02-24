@@ -1,11 +1,11 @@
 # amazon-scraper
 
-amazon-scraper is build for performing two types of scraping on Amazon platform. Given product url, it can scrape the details of the product. It also supports the category wise listing of all the products on Amazon and stores the all product details in the database. 
+amazon-scraper is build for performing two types of scraping on Amazon platform. Given product url, it can scrape the details of the product. It also supports the category wise listing of all the products on Amazon and stores all the product details in the database. 
 
 ## To run the scraper:
 
 #### Step-1:
- Clone the repository and acquire all dependencies. 
+ Clone the repository and acquire all dependencies using command:
  
  `go mod download`
 
